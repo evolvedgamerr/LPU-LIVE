@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap');
+        
+:root {
+    /* Light Mode (default) with punchier text */
+    --glass-bg-color: transparent;
+    --sidebar-bg-color: rgba(243, 244, 246, 0.7); /* More opaque background */
+    --glass-highlight: rgba(255, 255, 255, 0.5); /* Less highlight */
+    --glass-text-primary: #1f2937; /* Darker primary text for readability */
+    --glass-text-secondary: #6b7280; /* Readable secondary text */
+    --scrollbar-thumb: #F97316;
+    --chat-item-active-bg: rgba(0,0,0,0.1); /* Darker active item */
+    --chat-item-hover-bg: rgba(0,0,0,0.06); /* Darker hover item */
+    --message-other-bg: rgba(229, 231, 235, 0.8); /* More opaque message bubble */
+    --message-other-text: #111827; /* Darker message text */
+    --message-you-bg: rgba(249, 115, 22, 0.6); /* Slightly more opaque */
+    --header-border: rgba(0,0,0,0.12);
+    --search-bg: rgba(0,0,0,0.04);
+    --tabs-bg: rgba(0,0,0,0.08);
+    --modal-bg: rgba(243, 244, 246, 0.75); /* More opaque modal */
+    --popover-bg: rgba(249, 250, 251, 0.85); /* More opaque popover */
+    --modal-text: #1F2937;
+    --resizer-bg: rgba(0,0,0,0.15);
+    --backdrop-brightness: 0.95; /* Darker backdrop */
+}
+
+body.dark-mode {
+    --glass-bg-color: transparent;
+    --sidebar-bg-color: rgba(31, 41, 55, 0.4);
+    --glass-highlight: rgba(255, 255, 255, 0.05);
+    --glass-text-primary: #E5E7EB;
+    --glass-text-secondary: #9CA3AF;
+    --chat-item-active-bg: rgba(0,0,0,0.3);
+    --chat-item-hover-bg: rgba(0,0,0,0.2);
+    --message-other-bg: rgba(55, 65, 81, 0.25);
+    --message-other-text: #F3F4F6;
+    --message-you-bg: rgba(249, 115, 22, 0.25);
+    --header-border: rgba(255,255,255,0.1);
+    --search-bg: rgba(0,0,0,0.075);
+    --tabs-bg: rgba(0,0,0,0.3);
+    --modal-bg: rgba(31, 41, 55, 0.4);
+    --popover-bg: rgba(31, 41, 55, 0.6);
+    --modal-text: #E5E7EB;
+    --resizer-bg: rgba(255,255,255,0.1);
+    --backdrop-brightness: 0.8; /* Dark mode brightness (30% darker) */
+}
+
+html, body {
+    font-family: 'Urbanist', sans-serif;
+    overflow: hidden;
+    height: var(--app-height, 100vh);
+    width: 100%;
+    margin: 0;
+}
+body {
+    background: url("https://wallpaperswide.com/download/stunning_mountain_range_landscape-wallpaper-2048x1152.jpg") center/cover no-repeat;
+    padding: 0.5rem;
+    color: var(--glass-text-primary);
+    box-sizing: border-box;
+    transition: background-image 0.5s ease-in-out;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+.glass-container, .modal-content { position: relative; background: transparent; border-radius: 1.5rem; overflow: hidden; }
+.glass-container { 
+    height: 100%; 
+    width: 100%; 
+    display: flex; 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
+}
+.glass-filter, .glass-overlay, .glass-specular { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.glass-filter { z-index: 0; backdrop-filter: blur(8px) saturate(120%) brightness(var(--backdrop-brightness)); -webkit-backdrop-filter: blur(8px) saturate(120%) brightness(var(--backdrop-brightness)); }
+.glass-overlay { z-index: 1; background: var(--glass-bg-color); }
+.glass-specular { z-index: 2; box-shadow: inset 0 1px 1px 0 var(--glass-highlight); }
+.glass-content { position: relative; z-index: 3; width: 100%; height: 100%; display: flex; color: var(--glass-text-primary); }
+.modal-content .glass-overlay { background: var(--modal-bg); }
+ 
+#sidebar { background: var(--sidebar-bg-color); }
+#chat-area { background: transparent; }
+#chat-area header, #chat-area footer { border-color: var(--header-border); }
+#chat-area header { border-bottom-width: 0.5px; }
+#chat-area footer { border-top-width: 0.5px; }
+
+#sidebar .text-gray-400, .modal-content .text-gray-400, .popover-container .text-gray-400 { color: var(--glass-text-secondary); }
+ 
+#search-container .search-icon { 
+    stroke: #000000;
+}
+body.dark-mode #search-container .search-icon { 
+    stroke: var(--glass-text-secondary);
+}
+
+#search-container input, .modal-content input, .modal-content textarea, #chat-area footer input { background-color: var(--search-bg); color: var(--glass-text-primary); border-color: transparent; }
+#search-container input { 
+    border-width: 1.5px; 
+    border-color: rgba(249, 115, 22, 0.7); 
+}
+
+#search-container input::placeholder { color: #4B5563; opacity: 1; }
+#chat-area footer input::placeholder { color: var(--glass-text-secondary); opacity: 1; }
+body.dark-mode #search-container input::placeholder { color: var(--glass-text-secondary); }
+
+#tabs { background-color: var(--tabs-bg); }
+.tab { color: var(--glass-text-secondary); }
+.dark-mode .tab-active { background-color: rgba(0,0,0,0.3); color: #F97316; }
+.tab-active { background-color: rgba(0,0,0,0.05); color: #D97706; }
+.chat-item-active { background-color: var(--chat-item-active-bg) !important; }
+.chat-item:hover { background-color: var(--chat-item-hover-bg); }
+ 
+.chat-bubble { padding: 0.5rem 1rem; border-radius: 16px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
+.message-other { color: var(--message-other-text); background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(9.5px); -webkit-backdrop-filter: blur(9.5px); }
+.message-you { color: white; background: rgba(249, 115, 22, 0.18); backdrop-filter: blur(11.6px); -webkit-backdrop-filter: blur(11.6px); }
+body:not(.dark-mode) .message-other { background: var(--message-other-bg); }
+body:not(.dark-mode) .message-you { background: var(--message-you-bg); }
+.audio-message audio { max-width: 250px; }
+
+.modal-content, .popover-container { color: var(--modal-text); }
+.modal-content .bg-gray-800, .popover-container .bg-gray-800 { background-color: rgba(0,0,0,0.2); }
+body.dark-mode .modal-content .bg-gray-800, body.dark-mode .popover-container .bg-gray-800 { background-color: #374151; }
+ 
+#resizer { flex-shrink: 0; width: 5px; cursor: col-resize; background-color: transparent; position: relative; transition: background-color 0.2s; }
+#resizer::before { content: ''; position: absolute; top: 0; left: 2px; width: 1px; height: 100%; background-color: var(--resizer-bg); transition: background-color 0.2s; }
+#resizer:hover { background-color: rgba(249, 115, 22, 0.3); }
+#resizer:hover::before { background-color: rgba(249, 115, 22, 1); }
+ 
+.prism-input > .prism-layer { mix-blend-mode: screen; }
+.prism-input { position: relative; transition: all 0.2s ease-in-out; }
+.prism-input > .prism-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; border-radius: 9999px; filter: blur(calc(var(--blur, 8) * 1px));  opacity: 0; transition: opacity 0.3s ease; }
+.prism-input.focused > .prism-layer { opacity: var(--intensity, 0); }
+.prism-input.focused input { border-color: rgba(249, 115, 22, 0.0) !important; }
+.prism-input > .prism-red { top: calc(var(--redTop, 0) * 1px); left: calc(var(--redLeft, 0) * 1px); background: rgb(255, 0, 0); }
+.prism-input > .prism-green { top: calc(var(--greenTop, 0) * 1px); left: calc(var(--greenLeft, 0) * 1px); background: rgb(0, 255, 0); }
+.prism-input > .prism-blue { top: calc(var(--blueTop, 0) * 1px); left: calc(var(--blueLeft, 0) * 1px); background: rgb(0, 0, 255); }
+ 
+.modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 40; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.modal-backdrop.active { opacity: 1; pointer-events: auto; }
+.modal-content { transform: scale(0.95); transition: transform 0.3s ease; }
+.modal-backdrop.active .modal-content { transform: scale(1); }
+ 
+.popover-container { position: absolute; z-index: 50; visibility: hidden; opacity: 0; transition: opacity 0.2s, transform 0.2s; transform: translateY(10px); background: var(--popover-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 1.5rem; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+.popover-container.active { visibility: visible; opacity: 1; transform: translateY(0); }
+
+#preloader { position: fixed; inset: 0; background-color: #111827; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease-out; }
+#preloader.hidden { opacity: 0; pointer-events: none; }
+#drawing-canvas { cursor: crosshair; }
