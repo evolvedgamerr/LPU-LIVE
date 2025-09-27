@@ -12,23 +12,24 @@
         :root {
              /* Light Mode (default) with punchier text */
             --glass-bg-color: transparent;
-            --sidebar-bg-color: rgba(255, 255, 255, 0.40); /* Made 5% darker */
-            --glass-highlight: rgba(255, 255, 255, 0.6);
-            --glass-text-primary: #111827;
-            --glass-text-secondary: #4B5563;
+            --sidebar-bg-color: rgba(243, 244, 246, 0.7); /* More opaque background */
+            --glass-highlight: rgba(255, 255, 255, 0.5); /* Less highlight */
+            --glass-text-primary: #1f2937; /* Darker primary text for readability */
+            --glass-text-secondary: #6b7280; /* Readable secondary text */
             --scrollbar-thumb: #F97316;
-            --chat-item-active-bg: rgba(0,0,0,0.08);
-            --chat-item-hover-bg: rgba(0,0,0,0.04);
-            --message-other-bg: rgba(255, 255, 255, 0.4);
-            --message-other-text: #1F2937;
-            --message-you-bg: rgba(249, 115, 22, 0.4);
-            --header-border: rgba(0,0,0,0.1);
-            --search-bg: rgba(0,0,0,0.01);
-            --tabs-bg: rgba(0,0,0,0.05);
-            --modal-bg: rgba(255, 255, 255, 0.45);
-            --popover-bg: rgba(255, 255, 255, 0.6);
+            --chat-item-active-bg: rgba(0,0,0,0.1); /* Darker active item */
+            --chat-item-hover-bg: rgba(0,0,0,0.06); /* Darker hover item */
+            --message-other-bg: rgba(229, 231, 235, 0.8); /* More opaque message bubble */
+            --message-other-text: #111827; /* Darker message text */
+            --message-you-bg: rgba(249, 115, 22, 0.6); /* Slightly more opaque */
+            --header-border: rgba(0,0,0,0.12);
+            --search-bg: rgba(0,0,0,0.04);
+            --tabs-bg: rgba(0,0,0,0.08);
+            --modal-bg: rgba(243, 244, 246, 0.75); /* More opaque modal */
+            --popover-bg: rgba(249, 250, 251, 0.85); /* More opaque popover */
             --modal-text: #1F2937;
-            --resizer-bg: rgba(0,0,0,0.1);
+            --resizer-bg: rgba(0,0,0,0.15);
+            --backdrop-brightness: 0.95; /* Darker backdrop */
         }
 
         body.dark-mode {
@@ -49,6 +50,7 @@
             --popover-bg: rgba(31, 41, 55, 0.6);
             --modal-text: #E5E7EB;
             --resizer-bg: rgba(255,255,255,0.1);
+            --backdrop-brightness: 0.8; /* Dark mode brightness (30% darker) */
         }
 
         html, body {
@@ -70,20 +72,11 @@
         .glass-container, .modal-content { position: relative; background: transparent; border-radius: 1.5rem; overflow: hidden; }
         .glass-container { height: 100%; width: 100%; display: flex; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
         .glass-filter, .glass-overlay, .glass-specular { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
-        .glass-filter { z-index: 0; backdrop-filter: blur(8px) saturate(120%) brightness(1.15); -webkit-backdrop-filter: blur(8px) saturate(120%) brightness(1.15); }
+        .glass-filter { z-index: 0; backdrop-filter: blur(8px) saturate(120%) brightness(var(--backdrop-brightness)); -webkit-backdrop-filter: blur(8px) saturate(120%) brightness(var(--backdrop-brightness)); }
         .glass-overlay { z-index: 1; background: var(--glass-bg-color); }
         .glass-specular { z-index: 2; box-shadow: inset 0 1px 1px 0 var(--glass-highlight); }
         .glass-content { position: relative; z-index: 3; width: 100%; height: 100%; display: flex; color: var(--glass-text-primary); }
         .modal-content .glass-overlay { background: var(--modal-bg); }
-
-        .advanced-glass-bubble { position: relative; background: transparent; border-radius: 0.75rem; overflow: hidden; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1); }
-        .adv-glass-filter, .adv-glass-overlay, .adv-glass-specular { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
-        .adv-glass-filter { z-index: 0; backdrop-filter: blur(0px); filter: url(#bubble-dist-filter); }
-        .adv-glass-overlay { z-index: 1; }
-        .adv-glass-specular { z-index: 2; box-shadow: inset 1px 1px 0 var(--glass-highlight), inset 0 0 5px var(--glass-highlight); }
-        .adv-glass-content { position: relative; z-index: 3; padding: 0.5rem 1rem; }
-        .message-you .adv-glass-overlay { background: var(--message-you-bg); }
-        .message-other .adv-glass-overlay { background: var(--message-other-bg); }
         
         #sidebar { background: var(--sidebar-bg-color); }
         #chat-area { background: transparent; }
@@ -92,16 +85,65 @@
         #chat-area footer { border-top-width: 0.5px; }
 
         #sidebar .text-gray-400, .modal-content .text-gray-400, .popover-container .text-gray-400 { color: var(--glass-text-secondary); }
+        
+        #search-container .search-icon { 
+            stroke: #000000;
+        }
+        body.dark-mode #search-container .search-icon { 
+            stroke: var(--glass-text-secondary);
+        }
+
         #search-container input, .modal-content input, .modal-content textarea, #chat-area footer input { background-color: var(--search-bg); color: var(--glass-text-primary); border-color: transparent; }
-        #search-container input { border-width: 1px; border-color: rgba(249, 115, 22, 0.3); }
+        #search-container input { 
+            border-width: 1.5px; 
+            border-color: rgba(249, 115, 22, 0.7); 
+        }
+
+        #search-container input::placeholder {
+            color: #4B5563;
+            opacity: 1;
+        }
+
+        #chat-area footer input::placeholder {
+            color: var(--glass-text-secondary);
+            opacity: 1;
+        }
+
+        body.dark-mode #search-container input::placeholder {
+            color: var(--glass-text-secondary);
+        }
+
         #tabs { background-color: var(--tabs-bg); }
         .tab { color: var(--glass-text-secondary); }
         .dark-mode .tab-active { background-color: rgba(0,0,0,0.3); color: #F97316; }
         .tab-active { background-color: rgba(0,0,0,0.05); color: #D97706; }
         .chat-item-active { background-color: var(--chat-item-active-bg) !important; }
         .chat-item:hover { background-color: var(--chat-item-hover-bg); }
-        .message-other { color: var(--message-other-text); }
-        .message-you { color: white; }
+        
+        .chat-bubble {
+            padding: 0.5rem 1rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .message-other { 
+            color: var(--message-other-text);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(9.5px);
+            -webkit-backdrop-filter: blur(9.5px);
+        }
+        .message-you {
+             color: white; 
+            background: rgba(249, 115, 22, 0.18);
+            backdrop-filter: blur(11.6px);
+            -webkit-backdrop-filter: blur(11.6px);
+        }
+        body:not(.dark-mode) .message-other {
+            background: var(--message-other-bg);
+        }
+        body:not(.dark-mode) .message-you {
+            background: var(--message-you-bg);
+        }
+
         .modal-content, .popover-container { color: var(--modal-text); }
         .modal-content .bg-gray-800, .popover-container .bg-gray-800 { background-color: rgba(0,0,0,0.2); }
         body.dark-mode .modal-content .bg-gray-800, body.dark-mode .popover-container .bg-gray-800 { background-color: #374151; }
@@ -130,6 +172,7 @@
 
         #preloader { position: fixed; inset: 0; background-color: #111827; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease-out; }
         #preloader.hidden { opacity: 0; pointer-events: none; }
+        #drawing-canvas { cursor: crosshair; }
     </style>
 </head>
 <body>
@@ -145,14 +188,19 @@
         <div class="glass-overlay"></div>
         <div class="glass-specular"></div>
         
-        <div id="app" class="glass-content">
+        <div id="app" class="glass-content flex-col md:flex-row">
 
             <!-- Left Column: Sidebar -->
-            <div id="sidebar" class="flex flex-col flex-shrink-0 relative" style="width: 380px; min-width: 300px; max-width: 600px;">
+            <div id="sidebar" class="flex flex-col flex-shrink-0 relative w-full md:w-[380px]" style="min-width: 300px; max-width: 600px;">
                 <header class="h-[68px] p-4 flex items-center flex-shrink-0 border-b" style="border-color: var(--header-border);">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Lovely_Professional_University_logo.png/220px-Lovely_Professional_University_logo.png" alt="LPU Logo" class="h-10 mr-4">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Lovely_Professional_University_logo.png/220px-Lovely_Professional_University_logo.png" alt="LPU Logo" class="h-10 mr-3">
                     <div class="flex-grow">
                         <h1 class="text-xl font-bold text-orange-500 leading-tight">LPU LIVE</h1>
+                        <div class="flex items-center space-x-1.5 text-xs text-gray-400">
+                            <span id="date"></span>
+                            <span>·</span>
+                            <span id="clock"></span>
+                        </div>
                     </div>
                     <button id="theme-btn" class="p-2 rounded-full hover:bg-black/10 text-gray-400 hover:text-white transition-colors">
                         <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
@@ -165,7 +213,7 @@
                 <div class="p-4 flex-shrink-0">
                     <div id="search-container" class="relative prism-input">
                         <span class="prism-layer prism-red"></span><span class="prism-layer prism-green"></span><span class="prism-layer prism-blue"></span>
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10"><svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10"><svg class="w-5 h-5 search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
                         <input id="search-input" type="text" placeholder="Find user or group by name or ID..." class="relative w-full rounded-full py-2 pl-10 pr-4 focus:outline-none placeholder:text-gray-400 border-2 focus:border-white/20 transition-colors">
                     </div>
                 </div>
@@ -185,15 +233,14 @@
                 </button>
             </div>
 
-            <div id="resizer"></div>
+            <div id="resizer" class="hidden md:flex"></div>
 
-            <div id="chat-area" class="flex-1 flex flex-col relative"></div>
+            <div id="chat-area" class="flex-1 flex-col relative hidden md:flex"></div>
         </div>
     </div>
     
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <filter id="lensFilter" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox"><feComponentTransfer in="SourceAlpha" result="alpha"><feFuncA type="identity" /></feComponentTransfer><feGaussianBlur in="alpha" stdDeviation="50" result="blur" /><feDisplacementMap in="SourceGraphic" in2="blur" scale="50" xChannelSelector="A" yChannelSelector="A" /></filter>
-        <filter id="bubble-dist-filter" x="0%" y="0%" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" /><feGaussianBlur in="noise" stdDeviation="2" result="blurred" /><feDisplacementMap in="SourceGraphic" in2="blurred" scale="70" xChannelSelector="R" yChannelSelector="G" /></filter>
     </svg>
 
     <div id="notifications-modal" class="modal-backdrop"><div class="modal-content w-full max-w-md rounded-2xl shadow-lg p-6"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="relative z-10"><h2 class="text-xl font-bold mb-4">Notifications</h2><p class="text-gray-400">No new notifications.</p><button class="modal-close-btn mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg">Close</button></div></div></div>
@@ -201,13 +248,123 @@
     <div id="profile-modal" class="modal-backdrop"><div class="modal-content w-full max-w-sm rounded-2xl shadow-lg p-6"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="relative z-10"><h2 class="text-2xl font-bold mb-4 flex justify-between items-center">Settings<svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg></h2><div class="bg-gray-800 p-4 rounded-lg flex items-center mb-4"><img src="https://placehold.co/100x100/F97316/FFFFFF?text=RK" class="w-12 h-12 rounded-full mr-4"><div class="text-left"><div class="font-bold">Ravi Kant</div><div class="text-sm text-gray-400">Computer Science and Engineering (P132)</div></div></div><button class="w-full mb-4 bg-orange-600 text-white py-2 rounded-lg">Logout</button><div class="flex justify-between items-center bg-gray-800 p-1 rounded-lg mb-4"><button id="settings-light-btn" class="flex-1 p-2 rounded-md">Light</button><button id="settings-dark-btn" class="flex-1 p-2 rounded-md">Dark</button></div><div class="space-y-2 text-left text-sm"><button class="w-full flex items-center p-2 rounded-lg hover:bg-gray-800"><svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l2 2m-2-2l-2-2m2 2l2-2m-2 2l-2 2"></path></svg>Custom Chat Wallpaper</button><button class="w-full flex items-center p-2 rounded-lg hover:bg-gray-800"><svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>Apply Custom Avatar</button><button class="w-full flex items-center p-2 rounded-lg hover:bg-gray-800"><svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>Allow Notifications</button><button class="w-full flex items-center p-2 rounded-lg hover:bg-gray-800"><svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Start Your Chat Tour</button></div><button class="modal-close-btn mt-4 text-gray-400">Close</button></div></div></div>
     <div id="create-group-modal" class="modal-backdrop"><div class="modal-content w-full max-w-lg rounded-2xl shadow-lg p-6"><div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div><div class="relative z-10"><h2 class="text-xl font-bold mb-4">Create a New Group</h2><input id="group-name-input" type="text" class="w-full bg-gray-800 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Group Name..."><input id="add-member-input" type="text" class="w-full bg-gray-800 rounded-lg p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Search by registration number..."><div id="group-members-list" class="my-2 space-y-2 max-h-40 overflow-y-auto"></div><p id="group-notice" class="text-sm text-red-400 my-2">A group must have at least 2 members.</p><div class="flex justify-end space-x-2"><button class="modal-close-btn bg-gray-700 px-4 py-2 rounded-lg">Cancel</button><button id="create-group-confirm-btn" class="bg-orange-500 text-white px-4 py-2 rounded-lg disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>Create</button></div></div></div></div>
 
+    <!-- New Poll Modal -->
+    <div id="poll-modal" class="modal-backdrop">
+        <div class="modal-content w-full max-w-lg rounded-2xl shadow-lg p-6">
+            <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+            <div class="relative z-10">
+                <h2 class="text-xl font-bold mb-4">Create a Poll</h2>
+                <input id="poll-question" type="text" class="w-full bg-gray-800 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Poll Question...">
+                <div id="poll-options-container" class="space-y-2 mb-4">
+                    <input type="text" class="w-full bg-gray-800 rounded-lg p-2 poll-option" placeholder="Option 1">
+                    <input type="text" class="w-full bg-gray-800 rounded-lg p-2 poll-option" placeholder="Option 2">
+                </div>
+                <button id="add-poll-option-btn" class="text-sm text-orange-400 hover:text-orange-300 mb-4">+ Add Option</button>
+                <div class="flex justify-end space-x-2">
+                    <button class="modal-close-btn bg-gray-700 px-4 py-2 rounded-lg">Cancel</button>
+                    <button class="modal-close-btn bg-orange-500 text-white px-4 py-2 rounded-lg">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Code Snippet Modal -->
+    <div id="code-snippet-modal" class="modal-backdrop">
+        <div class="modal-content w-full max-w-2xl rounded-2xl shadow-lg p-6">
+            <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+            <div class="relative z-10">
+                <h2 class="text-xl font-bold mb-4">Share Code Snippet</h2>
+                <select id="code-language-select" class="w-full bg-gray-800 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <option>JavaScript</option>
+                    <option>HTML</option>
+                    <option>CSS</option>
+                    <option>Python</option>
+                    <option>Java</option>
+                    <option>C++</option>
+                    <option>Plain Text</option>
+                </select>
+                <textarea id="code-snippet-textarea" class="w-full bg-gray-800 rounded-lg p-2 mb-4 h-64 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Paste your code here..."></textarea>
+                <div class="flex justify-end space-x-2">
+                    <button class="modal-close-btn bg-gray-700 px-4 py-2 rounded-lg">Cancel</button>
+                    <button class="modal-close-btn bg-orange-500 text-white px-4 py-2 rounded-lg">Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Event Modal -->
+    <div id="event-modal" class="modal-backdrop">
+        <div class="modal-content w-full max-w-lg rounded-2xl shadow-lg p-6">
+            <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+            <div class="relative z-10">
+                <h2 class="text-xl font-bold mb-4">Create an Event</h2>
+                <input type="text" class="w-full bg-gray-800 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Event Title...">
+                <input type="datetime-local" class="w-full bg-gray-800 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                <textarea class="w-full bg-gray-800 rounded-lg p-2 mb-4 h-24 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Event Description..."></textarea>
+                <div class="flex justify-end space-x-2">
+                    <button class="modal-close-btn bg-gray-700 px-4 py-2 rounded-lg">Cancel</button>
+                    <button class="modal-close-btn bg-orange-500 text-white px-4 py-2 rounded-lg">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Drawing Modal -->
+    <div id="drawing-modal" class="modal-backdrop">
+        <div class="modal-content w-full max-w-2xl rounded-2xl shadow-lg p-6">
+            <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+            <div class="relative z-10">
+                <h2 class="text-xl font-bold mb-4">Drawing Canvas</h2>
+                <div class="bg-gray-800 rounded-lg p-2 mb-4 flex justify-center items-center">
+                    <canvas id="drawing-canvas" width="550" height="300" class="bg-white rounded-md"></canvas>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <label for="color-picker" class="text-sm">Color:</label>
+                        <input type="color" id="color-picker" value="#000000" class="w-8 h-8 rounded-full">
+                         <label for="brush-size" class="text-sm ml-4">Size:</label>
+                        <input type="range" id="brush-size" min="1" max="20" value="5" class="w-32">
+                    </div>
+                    <div class="flex space-x-2">
+                        <button id="clear-canvas-btn" class="bg-gray-700 px-4 py-2 rounded-lg">Clear</button>
+                        <button class="modal-close-btn bg-orange-500 text-white px-4 py-2 rounded-lg">Share</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New GIF Modal -->
+     <div id="gif-modal" class="modal-backdrop">
+        <div class="modal-content w-full max-w-2xl rounded-2xl shadow-lg p-6">
+            <div class="glass-filter"></div><div class="glass-overlay"></div><div class="glass-specular"></div>
+            <div class="relative z-10">
+                <h2 class="text-xl font-bold mb-4">Search for GIFs</h2>
+                 <input id="gif-search-input" type="text" class="w-full bg-gray-800 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Search Giphy...">
+                 <div id="gif-results" class="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-80 overflow-y-auto"></div>
+                <div class="flex justify-end space-x-2 mt-4">
+                    <button class="modal-close-btn bg-gray-700 px-4 py-2 rounded-lg">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Popovers for Footer Buttons -->
-    <div id="emoji-popover" class="popover-container p-2 w-80" style="bottom: 75px; right: 80px;"><div class="grid grid-cols-8 gap-2 text-2xl"></div></div>
-    <div id="attachment-popover" class="popover-container p-4" style="bottom: 75px; right: 140px;"><div class="grid grid-cols-3 gap-4"></div></div>
+    <div id="emoji-popover" class="popover-container p-4 w-96 h-80 overflow-y-auto" style="bottom: 75px; right: 20px;">
+        <div id="emoji-grid" class="grid grid-cols-10 gap-2 text-2xl"></div>
+    </div>
+    <div id="attachment-popover" class="popover-container p-4 w-80" style="bottom: 75px; right: 140px;"><div class="grid grid-cols-1 gap-1"></div></div>
+
+    <input type="file" id="image-video-input" class="hidden" accept="image/*,video/*" multiple>
+    <input type="file" id="camera-input" class="hidden" accept="image/*" capture="environment">
+    <input type="file" id="document-input" class="hidden" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
 
 
     <script>
         // --- DATA GENERATION (comments added) ---
+        // The base date is set to Friday, September 26, 2025 at 4:42 PM IST.
+        const baseDate = new Date('2025-09-26T16:42:00+05:30');
+        
         // Arrays of names to create random user profiles
         const firstNames = ["Aarav", "Vivaan", "Aditya", "Vihaan", "Arjun", "Sai", "Reyansh", "Ayaan", "Krishna", "Ishaan", "Rohan", "Priya", "Ananya", "Riya", "Saanvi", "Aadhya", "Kiara", "Diya", "Pari", "Anika", "Shanaya", "Alia", "Sameer", "Rahul", "Vikram", "Neha", "Pooja", "Deepika"];
         const lastNames = ["Sharma", "Verma", "Gupta", "Singh", "Kumar", "Patel", "Shah", "Khan", "Malhotra", "Kapoor", "Jain", "Reddy", "Yadav", "Mehta"];
@@ -227,7 +384,7 @@
                     name: `${firstName} ${lastName}`, // Simplified name for clarity
                     regNo: id,
                     avatar: `https://placehold.co/100x100/${Math.floor(Math.random()*16777215).toString(16)}/FFFFFF?text=${firstName.charAt(0)}${lastName.charAt(0)}`,
-                    lastMessage: { text: '...', timestamp: new Date(Date.now() - Math.random() * 1000 * 60 * 60 * 24 * 5) },
+                    lastMessage: { text: '...', timestamp: new Date(baseDate.getTime() - Math.random() * 1000 * 60 * 60 * 24 * 5) },
                     unread: Math.random() > 0.7 ? Math.floor(Math.random() * 5) + 1 : 0,
                     online: Math.random() > 0.5,
                     isGroup: false
@@ -238,14 +395,14 @@
 
         const chatsData = generateUsers(50);
         const groupsData = [
-            { id: 'g1', name: 'SPA109 (Spanish)', avatar: 'https://placehold.co/100x100/FEE2E2/7F1D1D?text=ES', lastMessage: { author: 'Ankita Kaushik', text: 'Hola! New assignment is up.', timestamp: new Date()}, unread: 1, isGroup: true, members: ['Ankita Kaushik', 'You', 'Riya Sharma', 'Arjun Kumar'] },
-            { id: 'g2', name: 'INT328 (Web Dev)', avatar: 'https://placehold.co/100x100/DBEAFE/1E3A8A?text=WD', lastMessage: { author: 'Dr. Pushpendra R Verma', text: 'Check the new module.', timestamp: new Date()}, unread: 0, isGroup: true, members: ['Dr. Pushpendra R Verma', 'You', 'Sameer Gupta', 'Priya Patel'] },
-            { id: 'g3', name: 'CSE325 (DAA)', avatar: 'https://placehold.co/100x100/D1FAE5/065F46?text=DAA', lastMessage: { author: 'Anika Verma', text: 'Does anyone have the notes for Dijkstra\'s algorithm?', timestamp: new Date()}, unread: 3, isGroup: true, members: ['Anika Verma', 'You', 'Rahul Singh', 'Aditya Jain'] },
-            { id: 'g4', name: 'Placement Prep', avatar: 'https://placehold.co/100x100/E0E7FF/3730A3?text=PP', lastMessage: { author: 'Training & Placement Cell', text: 'Accenture is visiting campus next week. Register on UMS.', timestamp: new Date()}, unread: 0, isGroup: true, members: ['Training & Placement Cell', 'You', 'Vihaan Shah'] },
+            { id: 'g1', name: 'SPA109 (Spanish)', avatar: 'https://placehold.co/100x100/FEE2E2/7F1D1D?text=ES', lastMessage: { author: 'Ankita Kaushik', text: 'Hola! New assignment is up.', timestamp: new Date(baseDate.getTime() - 1000 * 60 * 2) }, unread: 1, isGroup: true, members: ['Ankita Kaushik', 'You', 'Riya Sharma', 'Arjun Kumar'] },
+            { id: 'g2', name: 'INT328 (Web Dev)', avatar: 'https://placehold.co/100x100/DBEAFE/1E3A8A?text=WD', lastMessage: { author: 'Dr. Pushpendra R Verma', text: 'Check the new module.', timestamp: new Date(baseDate.getTime() - 1000 * 60 * 15) }, unread: 0, isGroup: true, members: ['Dr. Pushpendra R Verma', 'You', 'Sameer Gupta', 'Priya Patel'] },
+            { id: 'g3', name: 'CSE325 (DAA)', avatar: 'https://placehold.co/100x100/D1FAE5/065F46?text=DAA', lastMessage: { author: 'Anika Verma', text: 'Does anyone have the notes for Dijkstra\'s algorithm?', timestamp: new Date(baseDate.getTime() - 1000 * 60 * 45) }, unread: 3, isGroup: true, members: ['Anika Verma', 'You', 'Rahul Singh', 'Aditya Jain'] },
+            { id: 'g4', name: 'Placement Prep', avatar: 'https://placehold.co/100x100/E0E7FF/3730A3?text=PP', lastMessage: { author: 'Training & Placement Cell', text: 'Accenture is visiting campus next week. Register on UMS.', timestamp: new Date(baseDate.getTime() - 1000 * 60 * 60 * 3) }, unread: 0, isGroup: true, members: ['Training & Placement Cell', 'You', 'Vihaan Shah'] },
         ];
         const assignmentGroupData = [
-            { id: 'ag1', name: 'Capstone Project', avatar: 'https://placehold.co/100x100/EDE9FE/5B21B6?text=CP', lastMessage: {author: 'You', text: 'Let\'s finalize the report by tonight.' , timestamp: new Date()}, unread: 1, isGroup: true, members: ['You', 'Aarav Sharma', 'Saanvi Gupta', 'Vivaan Patel'] },
-            { id: 'ag2', name: 'CSE325 Project Group 4', avatar: 'https://placehold.co/100x100/FEF3C7/92400E?text=G4', lastMessage: {author: 'Rohan Kumar', text: 'I have pushed the latest code to GitHub.' , timestamp: new Date()}, unread: 0, isGroup: true, members: ['Rohan Kumar', 'You', 'Kiara Singh'] },
+            { id: 'ag1', name: 'Capstone Project', avatar: 'https://placehold.co/100x100/EDE9FE/5B21B6?text=CP', lastMessage: {author: 'You', text: 'Let\'s finalize the report by tonight.' , timestamp: new Date(baseDate.getTime() - 1000 * 60 * 8)}, unread: 1, isGroup: true, members: ['You', 'Aarav Sharma', 'Saanvi Gupta', 'Vivaan Patel'] },
+            { id: 'ag2', name: 'CSE325 Project Group 4', avatar: 'https://placehold.co/100x100/FEF3C7/92400E?text=G4', lastMessage: {author: 'Rohan Kumar', text: 'I have pushed the latest code to GitHub.' , timestamp: new Date(baseDate.getTime() - 1000 * 60 * 60 * 1)}, unread: 0, isGroup: true, members: ['Rohan Kumar', 'You', 'Kiara Singh'] },
         ];
         
         const allConversations = [...chatsData, ...groupsData, ...assignmentGroupData].sort((a, b) => b.lastMessage.timestamp - a.lastMessage.timestamp);
@@ -319,6 +476,10 @@
                     </div>`;
                 chatItem.addEventListener('click', () => {
                     activeChatId = chat.id;
+                    if (window.innerWidth < 768) {
+                        sidebarEl.classList.add('hidden');
+                        chatAreaEl.classList.remove('hidden');
+                    }
                     renderAll();
                 });
                 chatListEl.appendChild(chatItem);
@@ -331,7 +492,7 @@
             const history = [];
             const messagePool = ["Hey, did you get the notes for INT328?", "Yeah, I'll send them over.", "The deadline for the capstone project is next Friday!", "Let's meet at the library tomorrow at 10 AM to work on it.", "Can someone explain the last topic from the lecture?", "Check UMS, the new assignment is uploaded.", "The slides are in the resources section.", "Has the faculty graded our mid-terms yet?", "No, not yet. Should be out by the end of the week.", "Anyone going to the event on Saturday?", "I am!", "What's the syllabus for the final exam?", "It's the last 3 units.", "Thanks!", "See you in class.", "I'm running a bit late.", "Don't forget to submit the feedback form.", "The link is on the UMS dashboard."];
             const members = chat.isGroup ? chat.members : ['You', chat.name];
-            let lastTimestamp = Date.now();
+            let lastTimestamp = baseDate.getTime();
             for (let i = 0; i < 60; i++) {
                 lastTimestamp -= Math.random() * 1000 * 60 * 30;
                 history.unshift({ author: getRandomElement(members), text: getRandomElement(messagePool), timestamp: new Date(lastTimestamp) });
@@ -351,22 +512,24 @@
                     const isYou = msg.author === 'You';
                     messagesHTML += `
                         <div class="flex ${isYou ? 'justify-end' : 'justify-start'}">
-                             <div class="advanced-glass-bubble ${isYou ? 'rounded-br-none message-you' : 'rounded-bl-none message-other'} max-w-lg">
-                                 <div class="adv-glass-filter"></div><div class="adv-glass-overlay"></div><div class="adv-glass-specular"></div>
-                                 <div class="adv-glass-content">
-                                    ${chat.isGroup && !isYou ? `<div class="font-bold text-xs text-orange-400">${msg.author}</div>` : ''}
-                                    ${msg.text}
-                                    <div class="text-xs text-right opacity-70 mt-1">${formatTimestamp(msg.timestamp)}</div>
-                                </div>
-                            </div>
+                             <div class="chat-bubble ${isYou ? 'message-you rounded-br-none' : 'message-other rounded-bl-none'} max-w-lg">
+                                 ${chat.isGroup && !isYou ? `<div class="font-bold text-xs text-orange-400">${msg.author}</div>` : ''}
+                                 ${msg.text}
+                                 <div class="text-xs text-right opacity-70 mt-1">${formatTimestamp(msg.timestamp)}</div>
+                             </div>
                         </div>`;
                 });
                 chatAreaEl.innerHTML = `
                     <header class="h-[68px] flex-shrink-0 flex justify-between items-center px-4 border-b" style="border-color: var(--header-border);">
                         <div class="flex items-center overflow-hidden">
+                            <button id="back-btn" class="p-2 -ml-2 mr-2 rounded-full hover:bg-black/10 md:hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
                             <img src="${chat.avatar}" alt="avatar" class="w-10 h-10 rounded-full flex-shrink-0" />
                             <div class="ml-4 overflow-hidden">
-                                <h3 class="font-medium truncate">${chat.name}</h3>
+                                <h3 class="font-medium truncate text-gray-800 dark:text-gray-200">${chat.name}</h3>
                                 ${chat.online !== undefined ? `<p class="text-xs ${chat.online ? 'text-green-500' : 'text-gray-400'}">${chat.online ? 'Online' : 'Offline'}</p>` : ''}
                             </div>
                         </div>
@@ -374,20 +537,32 @@
                     <div id="message-list" class="flex-1 overflow-y-auto p-6"><div class="flex flex-col space-y-3">${messagesHTML}</div></div>
                     <footer class="flex-shrink-0 flex items-center p-2 relative">
                         <button id="emoji-btn" class="p-2 text-gray-400 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clip-rule="evenodd"></path></svg></button>
-                        <div class="flex-1 mx-2"><input id="message-input" type="text" placeholder="Message" class="w-full rounded-full py-2 px-5 focus:outline-none placeholder:text-gray-400"></div>
-                        <button id="attachment-btn" class="p-2 text-gray-400 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a3 3 0 106 0V7a1 1 0 112 0v4a5 5 0 11-10 0V7a3 3 0 013-3z" clip-rule="evenodd"></path></svg></button>
+                        <div class="flex-1 mx-2"><input id="message-input" type="text" placeholder="Message" class="w-full rounded-full py-2 px-5 focus:outline-none"></div>
+                        <button id="attachment-btn" class="p-2 text-gray-400 hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                        </svg></button>
                         <button class="p-2 ml-2 rounded-full bg-orange-500 text-white"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="white"/></svg></button>
                     </footer>`;
                 const messageList = document.getElementById('message-list');
                 messageList.scrollTop = messageList.scrollHeight;
-                setupFooterPopovers();
+                setupDynamicFooterListeners();
+                
+                const backBtn = document.getElementById('back-btn');
+                if (backBtn) {
+                    backBtn.addEventListener('click', () => {
+                        chatAreaEl.classList.add('hidden');
+                        sidebarEl.classList.remove('hidden');
+                        activeChatId = null;
+                        renderChatArea(); // Go back to welcome screen on mobile
+                    });
+                }
             } else {
                 chatAreaEl.innerHTML = `
                 <div class="flex-1 flex items-center justify-center text-center">
                     <div class="flex flex-col items-center">
                         <svg class="w-24 h-24 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.76 9.76 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" /></svg>
                         <h1 class="text-3xl font-bold mt-4">Welcome to LPU LIVE</h1>
-                        <p class="text-gray-400 mt-2 max-w-sm">Select a conversation from the sidebar to start your journey.</p>
+                        <p class="text-lg font-semibold mt-2 max-w-sm opacity-80">Select a conversation from the sidebar to start your journey.</p>
                         <div id="welcome-guidelines" class="mt-8 p-4 rounded-xl max-w-md text-left bg-black/10"><h2 class="font-bold mb-2">Platform Guidelines</h2><p class="text-sm text-gray-400">This is an official university platform. Please maintain professional conduct and use appropriate language in all communications.</p></div>
                     </div>
                 </div>`;
@@ -395,57 +570,137 @@
         }
 
         // --- EVENT LISTENERS & SETUP ---
-        tabsEl.addEventListener('click', (e) => {
-            const button = e.target.closest('.tab');
-            if (!button) return;
-            tabsEl.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
-            button.classList.add('tab-active');
-            activeTab = button.dataset.tab;
-            activeChatId = null;
-            renderAll();
-        });
-
-        themeBtn.addEventListener('click', () => {
-            const isDarkMode = bodyEl.classList.toggle('dark-mode');
-            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-            updateThemeIcons(isDarkMode);
-            renderAll();
-        });
         
-        function setupModal(buttonId, modalId) {
-            const btn = document.getElementById(buttonId);
-            const modal = document.getElementById(modalId);
-            btn.addEventListener('click', () => modal.classList.add('active'));
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal || e.target.closest('.modal-close-btn')) {
-                    modal.classList.remove('active');
+        function setupDynamicFooterListeners() {
+            const emojiBtn = document.getElementById('emoji-btn');
+            const attachmentBtn = document.getElementById('attachment-btn');
+            const emojiPopover = document.getElementById('emoji-popover');
+            const attachmentPopover = document.getElementById('attachment-popover');
+
+            if (emojiBtn && attachmentBtn && emojiPopover && attachmentPopover) {
+                emojiBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    attachmentPopover.classList.remove('active');
+                    emojiPopover.classList.toggle('active');
+                });
+
+                attachmentBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    emojiPopover.classList.remove('active');
+                    attachmentPopover.classList.toggle('active');
+                });
+            }
+        }
+
+        function initializeStaticListeners() {
+            // Theme button
+            themeBtn.addEventListener('click', () => {
+                const isDarkMode = bodyEl.classList.toggle('dark-mode');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                updateThemeIcons(isDarkMode);
+            });
+
+            // Tabs
+            tabsEl.addEventListener('click', (e) => {
+                const button = e.target.closest('.tab');
+                if (!button) return;
+                tabsEl.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+                button.classList.add('tab-active');
+                activeTab = button.dataset.tab;
+                activeChatId = null;
+                renderAll();
+            });
+            
+            // Search Input
+            searchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value;
+                renderChatList();
+            });
+
+             searchInput.addEventListener('focus', () => {
+                searchContainer.classList.add("focused");
+                document.addEventListener("mousemove", throttledMouseMove);
+            });
+            searchInput.addEventListener('blur', () => {
+                searchContainer.classList.remove("focused");
+                document.removeEventListener("mousemove", throttledMouseMove);
+                searchContainer.style.setProperty('--intensity', 0);
+            });
+
+            // Resizer
+            resizer.addEventListener('mousedown', (e) => {
+                if (window.innerWidth < 768) return;
+                isResizing = true;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+                const mouseMoveHandler = (e) => { if (!isResizing) return; sidebarEl.style.width = `${e.clientX - sidebarEl.getBoundingClientRect().left}px`; };
+                const mouseUpHandler = () => { isResizing = false; document.body.style.cursor = 'default'; document.body.style.userSelect = 'auto'; document.removeEventListener('mousemove', mouseMoveHandler); document.removeEventListener('mouseup', mouseUpHandler); };
+                document.addEventListener('mousemove', mouseMoveHandler);
+                document.addEventListener('mouseup', mouseUpHandler);
+            });
+
+            // Window resize handler
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    sidebarEl.classList.remove('hidden');
+                    chatAreaEl.classList.remove('hidden');
+                } else {
+                    if (activeChatId) {
+                        sidebarEl.classList.add('hidden');
+                        chatAreaEl.classList.remove('hidden');
+                    } else {
+                        sidebarEl.classList.remove('hidden');
+                        chatAreaEl.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Global click to close popovers
+            document.addEventListener('click', (e) => {
+                const emojiPopover = document.getElementById('emoji-popover');
+                const attachmentPopover = document.getElementById('attachment-popover');
+                if (!emojiPopover.contains(e.target) && !e.target.closest('#emoji-btn')) {
+                    emojiPopover.classList.remove('active');
+                }
+                if (!attachmentPopover.contains(e.target) && !e.target.closest('#attachment-btn')) {
+                    attachmentPopover.classList.remove('active');
+                }
+            });
+            
+            // Setup modals
+            const modalButtons = {
+                'notifications-btn': 'notifications-modal',
+                'bug-report-btn': 'bug-report-modal',
+                'profile-btn': 'profile-modal',
+                'create-group-btn': 'create-group-modal'
+            };
+
+            for (const btnId in modalButtons) {
+                const modalId = modalButtons[btnId];
+                const btn = document.getElementById(btnId);
+                const modal = document.getElementById(modalId);
+                if (btn && modal) {
+                    btn.addEventListener('click', () => modal.classList.add('active'));
+                }
+            }
+
+            const allModalIds = ['notifications-modal', 'bug-report-modal', 'profile-modal', 'create-group-modal', 'poll-modal', 'code-snippet-modal', 'event-modal', 'drawing-modal', 'gif-modal'];
+            allModalIds.forEach(id => {
+                const modal = document.getElementById(id);
+                if (modal) {
+                    modal.addEventListener('click', e => {
+                        if (e.target === modal || e.target.closest('.modal-close-btn')) {
+                            modal.classList.remove('active');
+                        }
+                    });
                 }
             });
         }
-        setupModal('notifications-btn', 'notifications-modal');
-        setupModal('bug-report-btn', 'bug-report-modal');
-        setupModal('profile-btn', 'profile-modal');
-        setupModal('create-group-btn', 'create-group-modal');
-
 
         function renderAll() { renderChatList(); renderChatArea(); }
 
-        searchInput.addEventListener('input', (e) => {
-            currentSearchTerm = e.target.value;
-            renderChatList();
-        });
-
         let mousePos = vec2.fromValues(innerWidth * 0.5, innerHeight * 0.5);
-        searchInput.addEventListener('focus', () => {
-            searchContainer.classList.add("focused");
-            document.addEventListener("mousemove", throttledMouseMove);
-        });
-        searchInput.addEventListener('blur', () => {
-            searchContainer.classList.remove("focused");
-            document.removeEventListener("mousemove", throttledMouseMove);
-            searchContainer.style.setProperty('--intensity', 0);
-        });
-
+        
         const handleMouseMove = (event) => {
             vec2.set(mousePos, event.clientX, event.clientY);
             const angle = mousePos[0] * mousePos[1] * 0.00005;
@@ -479,53 +734,61 @@
              if(isDarkMode) { sunIcon.classList.add('hidden'); moonIcon.classList.remove('hidden'); } 
              else { sunIcon.classList.remove('hidden'); moonIcon.classList.add('hidden'); }
         }
+
+        // --- DYNAMIC CONTENT & FEATURES ---
         
-        let isResizing = false;
-        resizer.addEventListener('mousedown', (e) => {
-            isResizing = true;
-            document.body.style.cursor = 'col-resize';
-            document.body.style.userSelect = 'none';
-            const mouseMoveHandler = (e) => { if (!isResizing) return; sidebarEl.style.width = `${e.clientX - sidebarEl.getBoundingClientRect().left}px`; };
-            const mouseUpHandler = () => { isResizing = false; document.body.style.cursor = 'default'; document.body.style.userSelect = 'auto'; document.removeEventListener('mousemove', mouseMoveHandler); document.removeEventListener('mouseup', mouseUpHandler); };
-            document.addEventListener('mousemove', mouseMoveHandler);
-            document.addEventListener('mouseup', mouseUpHandler);
-        });
-
-        // --- NEW FEATURES: Popovers and Create Group Logic ---
-        function setupPopover(button, popover) {
-            button.addEventListener('click', (e) => { e.stopPropagation(); popover.classList.toggle('active'); });
+        function populateEmojis() {
+            const emojiPicker = document.querySelector('#emoji-popover #emoji-grid');
+            if(!emojiPicker) return;
+            const emojis = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','😮','😲','🥱','😴','🤤','😪','😵','🤐','🥴','🤢','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','👹','👺','🤡','💩','👻','💀','☠️','👽','👾','🤖','🎃','😺','😸','😹','😻','😼','😽','🙀','😿','😾','👋','🤚','🖐️','✋','🖖','👌','🤏','✌️','🤞','🤟','🤘','🤙','👈','👉','👆','🖕','👇','☝️','👍','👎','✊','👊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦵','__','🦶','👣','👂','🦻','👃','🧠','🦷','🦴','👀','👁️','👅','👄','💋','🩸'];
+            emojiPicker.innerHTML = '';
+            emojis.forEach(emoji => { 
+                const e = document.createElement('button');
+                e.textContent = emoji;
+                e.className = 'p-1 rounded-lg hover:bg-black/10 transition-transform transform hover:scale-125';
+                e.onclick = () => { 
+                    const messageInput = document.getElementById('message-input');
+                    if(messageInput) messageInput.value += emoji; 
+                };
+                emojiPicker.appendChild(e);
+            });
         }
-        function setupFooterPopovers() {
-            const emojiBtn = document.getElementById('emoji-btn');
-            const attachmentBtn = document.getElementById('attachment-btn');
-            if (emojiBtn && attachmentBtn) {
-                setupPopover(emojiBtn, document.getElementById('emoji-popover'));
-                setupPopover(attachmentBtn, document.getElementById('attachment-popover'));
-            }
-        }
-        document.addEventListener('click', () => { 
-            document.getElementById('emoji-popover').classList.remove('active');
-            document.getElementById('attachment-popover').classList.remove('active');
-        });
+        
+        function populateAttachments() {
+            const attachmentMenu = document.querySelector('#attachment-popover .grid');
+            if(!attachmentMenu) return;
 
-        // Populate Emojis and Attachments
-        const emojiPicker = document.querySelector('#emoji-popover .grid');
-        const attachmentMenu = document.querySelector('#attachment-popover .grid');
-        const emojis = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬'];
-        const attachments = [{name: 'Document', icon: '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path></svg>'}, {name: 'Code', icon: '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>'}, {name: 'Camera', icon: '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm4 4a2 2 0 104 0 2 2 0 00-4 0z"></path></svg>'}];
-        emojis.forEach(emoji => { 
-            const e = document.createElement('button');
-            e.textContent = emoji;
-            e.className = 'p-1 rounded-lg hover:bg-black/10';
-            e.onclick = () => { document.getElementById('message-input').value += emoji; };
-            emojiPicker.appendChild(e);
-        });
-        attachments.forEach(att => {
-            const a = document.createElement('button');
-            a.className = 'flex flex-col items-center space-y-1 text-xs p-2 rounded-lg hover:bg-black/10';
-            a.innerHTML = `${att.icon}<span>${att.name}</span>`;
-            attachmentMenu.appendChild(a);
-        });
+            const attachments = [
+                { name: 'Photos & videos', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l2 2m-2-2l-2-2m2 2l2-2m-2 2l-2 2m-6-6l2-2 4 4-2 2m0 0l-2 2m2-2l2-2m2 2l2 2M3 12l6.414-6.414a2 2 0 012.828 0L19 12" /></svg>', action: 'file', inputId: 'image-video-input' },
+                { name: 'Camera', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>', action: 'file', inputId: 'camera-input' },
+                { name: 'Document', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>', action: 'file', inputId: 'document-input' },
+                { name: 'Code Snippet', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>', action: 'modal', modalId: 'code-snippet-modal' },
+                { name: 'GIF', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>', action: 'modal', modalId: 'gif-modal' },
+                { name: 'Contact', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>', action: 'modal', modalId: null }, // Placeholder
+                { name: 'Poll', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>', action: 'modal', modalId: 'poll-modal' },
+                { name: 'Event', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>', action: 'modal', modalId: 'event-modal' },
+                { name: 'Drawing', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>', action: 'modal', modalId: 'drawing-modal' }
+            ];
+            
+            attachmentMenu.innerHTML = ''; // Clear previous items
+            attachments.forEach(att => {
+                const a = document.createElement('button');
+                a.className = 'flex items-center text-left w-full p-2 rounded-lg hover:bg-black/10';
+                a.innerHTML = `${att.icon}<span>${att.name}</span>`;
+                
+                a.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.getElementById('attachment-popover').classList.remove('active');
+
+                    if (att.action === 'modal' && att.modalId) {
+                        document.getElementById(att.modalId).classList.add('active');
+                    } else if (att.action === 'file' && att.inputId) {
+                        document.getElementById(att.inputId).click();
+                    }
+                });
+                attachmentMenu.appendChild(a);
+            });
+        }
         
         // Create Group Logic
         const groupMemberSearch = document.getElementById('add-member-input');
@@ -564,6 +827,114 @@
                 renderGroupMembers();
             }
         });
+
+        // Poll Modal Logic
+        const addPollOptionBtn = document.getElementById('add-poll-option-btn');
+        const pollOptionsContainer = document.getElementById('poll-options-container');
+        addPollOptionBtn.addEventListener('click', () => {
+            const optionCount = pollOptionsContainer.querySelectorAll('.poll-option').length;
+            if (optionCount < 10) { // Limit to 10 options
+                const newOption = document.createElement('input');
+                newOption.type = 'text';
+                newOption.className = 'w-full bg-gray-800 rounded-lg p-2 poll-option';
+                newOption.placeholder = `Option ${optionCount + 1}`;
+                pollOptionsContainer.appendChild(newOption);
+            }
+        });
+        
+        // Drawing Canvas Logic
+        function setupDrawingCanvas() {
+            const canvas = document.getElementById('drawing-canvas');
+            const colorPicker = document.getElementById('color-picker');
+            const brushSize = document.getElementById('brush-size');
+            const clearBtn = document.getElementById('clear-canvas-btn');
+            
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            function draw(e) {
+                if (!isDrawing) return;
+                ctx.strokeStyle = colorPicker.value;
+                ctx.lineWidth = brushSize.value;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            });
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+            canvas.addEventListener('mouseout', () => isDrawing = false);
+            clearBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+        }
+        
+        // GIF Modal Logic
+        function setupGifModal() {
+            const gifModal = document.getElementById('gif-modal');
+            const gifSearchInput = document.getElementById('gif-search-input');
+            const gifResults = document.getElementById('gif-results');
+            const giphyAPIKey = 'YOUR_GIPHY_API_KEY'; // IMPORTANT: Replace with your actual Giphy API Key
+
+            async function searchGifs(query) {
+                if (giphyAPIKey === 'YOUR_GIPHY_API_KEY') {
+                    gifResults.innerHTML = '<p class="text-red-400">Giphy API Key not configured.</p>';
+                    return;
+                }
+                const url = `https://api.giphy.com/v1/gifs/search?api_key=${giphyAPIKey}&q=${encodeURIComponent(query)}&limit=20`;
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    displayGifs(data.data);
+                } catch (error) {
+                    console.error("Error fetching GIFs:", error);
+                    gifResults.innerHTML = '<p class="text-red-400">Could not fetch GIFs.</p>';
+                }
+            }
+
+            function displayGifs(gifs) {
+                gifResults.innerHTML = '';
+                gifs.forEach(gif => {
+                    const img = document.createElement('img');
+                    img.src = gif.images.fixed_height.url;
+                    img.alt = gif.title;
+                    img.className = 'w-full h-auto object-cover rounded-lg cursor-pointer hover:opacity-80';
+                    img.onclick = () => {
+                        console.log("Selected GIF:", img.src); // Placeholder for sending GIF
+                        gifModal.classList.remove('active');
+                    };
+                    gifResults.appendChild(img);
+                });
+            }
+
+            gifSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && e.target.value.trim()) {
+                    searchGifs(e.target.value.trim());
+                }
+            });
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const optionsDate = { weekday: 'short', day: 'numeric', month: 'short' };
+            const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: true };
+            
+            document.getElementById('date').textContent = now.toLocaleDateString('en-GB', optionsDate);
+            document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', optionsTime);
+        }
         
         // --- INITIALIZATION ---
         function init() {
@@ -576,10 +947,23 @@
             const isDarkMode = savedTheme === 'dark';
             if (isDarkMode) { bodyEl.classList.add('dark-mode'); }
             updateThemeIcons(isDarkMode);
+
+            updateClock();
+            setInterval(updateClock, 1000);
+
             renderAll();
+            initializeStaticListeners();
+            populateEmojis();
+            populateAttachments();
+            setupDrawingCanvas();
+            setupGifModal();
+
+            // Set initial mobile view
+            if (window.innerWidth < 768) {
+                chatAreaEl.classList.add('hidden');
+            }
         }
         init();
     </script>
 </body>
 </html>
-
